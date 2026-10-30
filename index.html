@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171a13">
+  <meta name="description" content="Una invitación especial para celebrar 60 años de vida.">
+  <title>Una celebración especial · 60 años</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --olive: #727751;
+      --olive-light: #a7a77b;
+      --gold: #d4b66f;
+      --cream: #f5f0df;
+      --muted: #c4c0ae;
+      --black: #171a13;
+      --panel: #20231b;
+      --line: rgba(212, 182, 111, .34);
+      --serif: "DM Serif Display", Georgia, serif;
+      --sans: "Manrope", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--cream);
+      background: var(--black);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    .page-shell { overflow: hidden; }
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 72px 24px 64px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 34%, rgba(114,119,81,.26), transparent 48%),
+        linear-gradient(160deg, #191c14 0%, #11130f 100%);
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      width: min(42vw, 440px);
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      opacity: .6;
+      pointer-events: none;
+    }
+    .hero::before { width: min(58vw, 600px); }
+    .hero::after { width: min(49vw, 510px); }
+    .corner { position: absolute; width: 120px; height: 120px; opacity: .65; }
+    .corner::before, .corner::after { content: ""; position: absolute; background: var(--gold); }
+    .corner::before { width: 1px; height: 100%; left: 0; top: 0; }
+    .corner::after { width: 100%; height: 1px; left: 0; top: 0; }
+    .corner--tl { top: 30px; left: 30px; }
+    .corner--tr { top: 30px; right: 30px; transform: scaleX(-1); }
+    .corner--bl { bottom: 30px; left: 30px; transform: scaleY(-1); }
+    .corner--br { bottom: 30px; right: 30px; transform: scale(-1); }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .botanical { position: absolute; z-index: 0; width: clamp(130px, 21vw, 270px); height: auto; color: var(--olive-light); opacity: .36; pointer-events: none; }
+    .botanical path { fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+    .botanical .gold-stroke { color: var(--gold); opacity: .8; }
+    .botanical--left { left: max(3%, calc((100vw - 1320px) / 2)); bottom: 8%; }
+    .botanical--right { right: max(3%, calc((100vw - 1320px) / 2)); top: 20%; transform: scaleX(-1) rotate(-8deg); }
+    .floral-canopy { position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: clamp(160px, 25vh, 280px); pointer-events: none; }
+    .floral-canopy svg { display: block; width: 100%; height: 100%; }
+    .floral-canopy::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 43%, rgba(23,26,19,.28) 69%, #171a13 100%); }
+    .canopy-vine { fill: none; stroke: #9b9e73; stroke-width: 2.2; stroke-linecap: round; opacity: .82; }
+    .canopy-leaf { fill: #727751; stroke: #a7a77b; stroke-width: 1; }
+    .canopy-leaf--light { fill: #a7a77b; stroke: #c4c0a0; stroke-width: .8; }
+    .canopy-leaf--gold { fill: #b69a53; stroke: #d4b66f; stroke-width: .8; }
+    .floral-canopy .bloom { filter: drop-shadow(0 0 7px rgba(212,182,111,.35)); }
+    .floral-canopy .bloom--first { animation-delay: .18s; }
+    .floral-canopy .bloom--second { animation-delay: .48s; }
+    .floral-canopy .bloom--third { animation-delay: .78s; }
+    .floral-canopy .bloom--fourth { animation-delay: 1.08s; }
+    .floral-canopy .bloom--fifth { animation-delay: 1.38s; }
+    .bloom { opacity: 0; transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 0 7px rgba(212,182,111,.38)); animation: bloom-open 1.05s cubic-bezier(.2,.85,.25,1.25) both; }
+    .bloom--gold .petal { fill: #c7a84f; stroke: #f2dda4; }
+    .bloom--cream .petal { fill: #e3d7b4; stroke: #fff2cd; }
+    .bloom .petal { stroke-width: 1.1; }
+    .bloom .flower-center { fill: #f1d78f; stroke: #65552e; stroke-width: 1.2; }
+    .bloom--first { animation-delay: .12s; }
+    .bloom--second { animation-delay: .42s; }
+    .bloom--third { animation-delay: .72s; }
+    .botanical--right .bloom--first { animation-delay: .28s; }
+    .botanical--right .bloom--second { animation-delay: .58s; }
+    .botanical--right .bloom--third { animation-delay: .88s; }
+    @keyframes bloom-open {
+      0% { opacity: 0; transform: scale(.08) rotate(-28deg); }
+      68% { opacity: 1; transform: scale(1.14) rotate(5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    .eyebrow, .section-kicker {
+      margin: 0;
+      color: var(--gold);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+    .eyebrow { margin-bottom: 18px; }
+    h1, h2, .name {
+      font-family: var(--serif);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+    h1 { margin: 0; font-size: clamp(3rem, 8vw, 6.25rem); }
+    .hero-copy { margin: 20px auto 0; max-width: 510px; color: var(--muted); font-size: 1.02rem; }
+    .age-wrap { margin: 25px auto 0; display: flex; justify-content: center; align-items: center; gap: 13px; color: var(--gold); }
+    .age-number { font-family: var(--serif); font-size: clamp(6rem, 21vw, 12rem); line-height: .82; letter-spacing: -.07em; }
+    .age-label { max-width: 90px; text-align: left; font-size: .75rem; line-height: 1.35; letter-spacing: .2em; text-transform: uppercase; }
+    .ornament { display: flex; align-items: center; gap: 14px; width: min(250px, 65%); margin: 30px auto 26px; color: var(--gold); }
+    .ornament::before, .ornament::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+    .ornament span { font-size: 1.15rem; }
+    .name { margin: 0; color: var(--cream); font-size: clamp(2.4rem, 7vw, 4.4rem); }
+    .name-placeholder { color: var(--olive-light); }
+    .hero-bottom { margin-top: 31px; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 50px;
+      padding: 13px 23px;
+      border: 1px solid var(--gold);
+      color: var(--black);
+      background: var(--gold);
+      font: 700 .75rem var(--sans);
+      letter-spacing: .1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .2s ease;
+      cursor: pointer;
+    }
+    .button:hover { transform: translateY(-2px); background: #e2c984; }
+    .button--outline { color: var(--cream); background: transparent; }
+    .button--outline:hover { color: var(--black); }
+    .details { position: relative; overflow: hidden; padding: 100px 24px; background: radial-gradient(ellipse at 50% 52%, rgba(114,119,81,.13), transparent 58%), #20231b; }
+    .details::before, .details::after { content: ""; position: absolute; top: 50%; width: 380px; height: 380px; border: 1px solid rgba(212,182,111,.13); border-radius: 50%; transform: translateY(-50%); box-shadow: 0 0 0 24px rgba(212,182,111,.025), 0 0 0 50px rgba(167,167,123,.035); pointer-events: none; }
+    .details::before { left: -300px; }
+    .details::after { right: -300px; }
+    .section-inner { position: relative; z-index: 1; width: min(100%, 980px); margin: 0 auto; }
+    .section-heading { margin: 12px 0 16px; font-size: clamp(2.4rem, 5vw, 4rem); }
+    .section-intro { max-width: 570px; margin: 0 auto; color: var(--muted); }
+    .details-head { text-align: center; }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 54px; border: 1px solid var(--line); }
+    .detail-card { min-height: 184px; padding: 28px 20px; text-align: center; }
+    .detail-card + .detail-card { border-left: 1px solid var(--line); }
+    .detail-symbol { color: var(--gold); font-size: 1.35rem; }
+    .detail-label { margin: 9px 0 6px; color: var(--olive-light); font-size: .67rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+    .detail-value { margin: 0; font-family: var(--serif); font-size: 1.5rem; }
+    .detail-note { margin: 6px 0 0; color: var(--muted); font-size: .82rem; }
+    .rsvp { position: relative; overflow: hidden; padding: 100px 24px 110px; background: radial-gradient(ellipse at 50% 0%, rgba(114,119,81,.2), transparent 56%), radial-gradient(circle at 94% 85%, rgba(212,182,111,.07), transparent 25%), #171a13; }
+    .rsvp-constellation { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+    .rsvp-constellation svg { position: absolute; top: 2%; right: -2%; width: clamp(230px, 38vw, 470px); height: auto; color: var(--gold); opacity: .3; }
+    .constellation-orbit { fill: none; stroke: currentColor; stroke-width: .8; opacity: .42; }
+    .constellation-line { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 2 7; stroke-linecap: round; opacity: .6; }
+    .constellation-star { fill: #e8ce8b; transform-box: fill-box; transform-origin: center; animation: star-glimmer 3.8s ease-in-out infinite; }
+    .constellation-star--two { animation-delay: .8s; }
+    .constellation-star--three { animation-delay: 1.6s; }
+    .constellation-star--four { animation-delay: 2.4s; }
+    .constellation-dot { fill: #d4b66f; opacity: .7; }
+    @keyframes star-glimmer { 0%, 100% { opacity: .35; transform: scale(.72); } 50% { opacity: 1; transform: scale(1.18); } }
+    .rsvp-floral-edge { position: absolute; z-index: 0; left: 0; bottom: 0; width: 100%; height: clamp(76px, 13vh, 126px); pointer-events: none; opacity: .78; }
+    .rsvp-floral-edge svg { display: block; width: 100%; height: 100%; }
+    .rsvp-floral-edge::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, transparent 5%, rgba(23,26,19,.12) 55%, #171a13 100%); }
+    .rsvp-sprig { fill: none; stroke: #9b9e73; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .rsvp-sprig-leaf { fill: #727751; stroke: #a7a77b; stroke-width: .8; }
+    .rsvp-sprig-leaf--light { fill: #a7a77b; stroke: #d4c891; stroke-width: .7; }
+    .rsvp-floral-edge .bloom { filter: drop-shadow(0 0 5px rgba(212,182,111,.32)); }
+    .rsvp-floral-edge .bloom--first { animation-delay: .35s; }
+    .rsvp-floral-edge .bloom--second { animation-delay: .75s; }
+    .rsvp-floral-edge .bloom--third { animation-delay: 1.15s; }
+    .rsvp-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 72px; align-items: start; }
+    .rsvp-copy { position: sticky; top: 32px; }
+    .rsvp-copy .section-heading { max-width: 410px; }
+    .rsvp-copy p:not(.section-kicker) { color: var(--muted); }
+    .deadline { display: inline-block; margin-top: 12px; padding: 8px 12px; border-left: 2px solid var(--gold); color: var(--cream); background: rgba(255,255,255,.035); font-size: .82rem; }
+    .form-card { padding: clamp(24px, 5vw, 42px); border: 1px solid var(--line); background: rgba(32,35,27,.84); }
+    .form-card h3 { margin: 0 0 8px; font-family: var(--serif); font-size: 2rem; font-weight: 400; }
+    .form-hint { margin: 0 0 25px; color: var(--muted); font-size: .86rem; }
+    .field { margin-bottom: 18px; }
+    .field label, legend { display: block; margin-bottom: 8px; color: var(--cream); font-size: .75rem; font-weight: 700; letter-spacing: .07em; }
+    input, select, textarea { width: 100%; min-height: 49px; padding: 12px 13px; border: 1px solid rgba(245,240,223,.24); border-radius: 0; outline: none; color: var(--cream); background: #171a13; font: 500 .9rem var(--sans); }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(212,182,111,.14); }
+    input::placeholder, textarea::placeholder { color: #858575; }
+    select option { color: var(--cream); background: var(--black); }
+    textarea { min-height: 92px; resize: vertical; }
+    fieldset { padding: 0; margin: 0 0 19px; border: 0; }
+    .choice-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .choice { position: relative; }
+    .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .choice span { display: flex; min-height: 48px; justify-content: center; align-items: center; padding: 10px; border: 1px solid rgba(245,240,223,.24); color: var(--muted); cursor: pointer; font-size: .82rem; text-align: center; }
+    .choice input:checked + span { border-color: var(--gold); color: var(--black); background: var(--gold); }
+    .choice input:focus-visible + span { outline: 2px solid var(--cream); outline-offset: 2px; }
+    .hidden { display: none; }
+    .submit-button { width: 100%; margin-top: 3px; }
+    .form-status { min-height: 25px; margin: 14px 0 0; color: var(--gold); font-size: .85rem; }
+    .small-print { margin: 14px 0 0; color: #a9a894; font-size: .72rem; }
+    .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    footer { padding: 26px 24px; border-top: 1px solid rgba(212,182,111,.18); color: #a9a894; background: var(--black); text-align: center; font-size: .75rem; }
+    footer span { color: var(--gold); }
+    @media (max-width: 720px) {
+      .hero { min-height: 90svh; padding: 76px 24px; }
+      .botanical { width: clamp(86px, 22vw, 132px); opacity: .22; }
+      .botanical--left { left: 0; bottom: 8%; }
+      .botanical--right { right: 0; top: 24%; }
+      .floral-canopy { height: clamp(145px, 23vh, 205px); }
+      .corner { width: 58px; height: 58px; }
+      .corner--tl { top: 18px; left: 18px; }
+      .corner--tr { top: 18px; right: 18px; }
+      .corner--bl { bottom: 18px; left: 18px; }
+      .corner--br { bottom: 18px; right: 18px; }
+      .details, .rsvp { padding: 76px 22px; }
+      .detail-grid { grid-template-columns: 1fr; margin-top: 36px; }
+      .detail-card { min-height: 0; padding: 24px 16px; }
+      .detail-card + .detail-card { border-top: 1px solid var(--line); border-left: 0; }
+      .rsvp-layout { grid-template-columns: 1fr; gap: 34px; }
+      .rsvp-copy { position: static; }
+      .rsvp-constellation svg { top: 0; right: -68px; width: 250px; opacity: .23; }
+      .rsvp-floral-edge { height: 78px; opacity: .62; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) { .bloom { animation: none; opacity: 1; transform: none; } .constellation-star { animation: none; opacity: .7; transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <span class="corner corner--tl" aria-hidden="true"></span><span class="corner corner--tr" aria-hidden="true"></span>
+        <span class="corner corner--bl" aria-hidden="true"></span><span class="corner corner--br" aria-hidden="true"></span>
+        <div class="floral-canopy" aria-hidden="true">
+          <svg viewBox="0 0 1600 300" preserveAspectRatio="xMidYMin slice">
+            <path class="canopy-vine" d="M-35 16C112 28 174 94 302 65S485 6 638 42s230 73 376 38 216-74 332-43 191 65 292 43" />
+            <path class="canopy-vine" d="M87 22c28 42 16 88-2 132m221-91c-15 39-7 75 23 111m225-125c-29 36-26 81-6 113m250-86c16 42 13 87-8 126m244-83c-18 35-16 70 7 104m252-84c26 39 25 85 0 126m214-97c-10 34-3 64 18 91" />
+            <path class="canopy-leaf" d="M51 22C21 4 5 10 0 31c23 13 41 10 51-9Zm35 18c20-24 39-24 51-7-14 22-32 27-51 7Zm58 28c-26-20-44-15-48 7 21 15 39 13 48-7Zm-69 42c-25-16-43-9-43 13 23 11 39 5 43-13Zm-36 46c-19-21-38-19-47 1 17 19 34 20 47-1Zm91-113c-6-30 7-42 29-35 3 22-7 35-29 35Zm187-78c27 19 28 37 9 51-22-14-26-31-9-51Zm27 33c-18-27-10-44 12-47 14 19 10 37-12 47Zm46 24c23-24 42-20 49 1-18 18-36 19-49-1Zm-35 55c28-16 44-7 45 15-21 13-39 7-45-15Zm-42 39c15-27 34-29 50-11-12 23-29 28-50 11Zm-28 35c-6-30 7-42 29-35 3 22-7 35-29 35Z" />
+            <path class="canopy-leaf canopy-leaf--light" d="M427 16c-25-22-44-17-48 5 21 14 39 11 48-5Zm28 24c21-27 40-27 52-9-15 23-33 27-52 9Zm56 27c-27-18-44-12-47 10 21 13 39 10 47-10Zm-44 46c28-15 45-5 44 17-21 12-39 5-44-17Zm-42 32c-4-30 10-41 31-33 1 22-9 35-31 33Zm198-99c25 21 25 39 5 52-21-15-24-33-5-52Zm49 28c-18-27-9-44 13-46 13 20 9 37-13 46Zm31 39c25-21 43-15 47 7-19 16-37 14-47-7Zm-39 50c29-13 45-2 42 20-22 10-39 2-42-20Zm-39 32c9-29 27-35 47-19-8 25-24 33-47 19Z" />
+            <path class="canopy-leaf canopy-leaf--gold" d="M697 38c-24-21-43-16-47 6 21 13 38 10 47-6Zm35 26c20-27 39-27 51-9-14 22-32 27-51 9Zm66 24c-27-18-44-12-47 10 21 13 39 10 47-10Zm-51 56c27-18 44-11 47 11-20 15-38 11-47-11Zm-49 23c-6-29 7-42 29-35 3 22-7 35-29 35Zm198-108c27 18 29 36 10 51-22-14-27-31-10-51Zm42 36c-17-28-7-44 15-45 12 21 7 38-15 45Zm42 39c25-20 43-13 46 9-20 15-38 12-46-9Zm-42 53c29-12 45 0 41 22-22 9-39 0-41-22Z" />
+            <path class="canopy-leaf" d="M1053 31c-27-18-45-11-46 11 22 11 39 6 46-11Zm37 30c17-29 36-31 50-14-12 24-29 30-50 14Zm63 28c-28-16-45-8-45 14 22 11 39 4 45-14Zm-47 51c27-18 44-11 47 11-20 15-38 11-47-11Zm-47 31c-5-30 8-42 30-34 2 22-8 35-30 34Zm189-105c26 20 27 38 7 52-21-15-25-32-7-52Zm46 33c-17-28-7-44 15-45 12 21 7 38-15 45Zm37 40c27-18 44-9 44 13-21 12-39 6-44-13Zm-36 51c29-11 45 1 39 23-22 8-39-2-39-23Z" />
+            <path class="canopy-leaf canopy-leaf--light" d="M1330 13c-25-21-43-15-46 7 21 13 38 9 46-7Zm40 30c17-29 36-31 50-14-12 24-29 30-50 14Zm67 28c-28-16-45-8-45 14 22 11 39 4 45-14Zm-46 57c27-18 44-11 47 11-20 15-38 11-47-11Zm-46 31c-5-30 8-42 30-34 2 22-8 35-30 34Zm171-100c26 20 27 38 7 52-21-15-25-32-7-52Zm38 35c-16-28-6-44 16-45 11 21 6 38-16 45Zm37 41c27-18 44-9 44 13-21 12-39 6-44-13Z" />
+            <g transform="translate(285 55)"><g class="bloom bloom--cream bloom--first"><ellipse class="petal" cy="-12" rx="7" ry="11"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(60)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(120)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(180)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(240)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(300)"/><circle class="flower-center" r="6"/></g></g>
+            <g transform="translate(545 83)"><g class="bloom bloom--gold bloom--second"><ellipse class="petal" cy="-9" rx="5.5" ry="8.5"/><ellipse class="petal" cy="-9" rx="5.5" ry="8.5" transform="rotate(60)"/><ellipse class="petal" cy="-9" rx="5.5" ry="8.5" transform="rotate(120)"/><ellipse class="petal" cy="-9" rx="5.5" ry="8.5" transform="rotate(180)"/><ellipse class="petal" cy="-9" rx="5.5" ry="8.5" transform="rotate(240)"/><ellipse class="petal" cy="-9" rx="5.5" ry="8.5" transform="rotate(300)"/><circle class="flower-center" r="4.5"/></g></g>
+            <g transform="translate(828 57)"><g class="bloom bloom--cream bloom--third"><ellipse class="petal" cy="-14" rx="8" ry="12.5"/><ellipse class="petal" cy="-14" rx="8" ry="12.5" transform="rotate(60)"/><ellipse class="petal" cy="-14" rx="8" ry="12.5" transform="rotate(120)"/><ellipse class="petal" cy="-14" rx="8" ry="12.5" transform="rotate(180)"/><ellipse class="petal" cy="-14" rx="8" ry="12.5" transform="rotate(240)"/><ellipse class="petal" cy="-14" rx="8" ry="12.5" transform="rotate(300)"/><circle class="flower-center" r="6.5"/></g></g>
+            <g transform="translate(1110 76)"><g class="bloom bloom--gold bloom--fourth"><ellipse class="petal" cy="-10" rx="6" ry="9.5"/><ellipse class="petal" cy="-10" rx="6" ry="9.5" transform="rotate(60)"/><ellipse class="petal" cy="-10" rx="6" ry="9.5" transform="rotate(120)"/><ellipse class="petal" cy="-10" rx="6" ry="9.5" transform="rotate(180)"/><ellipse class="petal" cy="-10" rx="6" ry="9.5" transform="rotate(240)"/><ellipse class="petal" cy="-10" rx="6" ry="9.5" transform="rotate(300)"/><circle class="flower-center" r="5"/></g></g>
+            <g transform="translate(1360 52)"><g class="bloom bloom--cream bloom--fifth"><ellipse class="petal" cy="-12" rx="7" ry="11"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(60)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(120)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(180)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(240)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(300)"/><circle class="flower-center" r="6"/></g></g>
+            <circle cx="197" cy="37" r="3.2" fill="#d4b66f"/><circle cx="748" cy="30" r="3" fill="#e3d7b4"/><circle cx="1272" cy="36" r="3.3" fill="#d4b66f"/>
+          </svg>
+        </div>
+        <svg class="botanical botanical--left" viewBox="0 0 180 340" aria-hidden="true">
+          <path d="M15 328C55 291 49 252 78 220S110 170 103 134 125 82 160 18" />
+          <path d="M45 290C18 290 5 272 8 251 30 249 49 262 45 290ZM63 267C89 272 108 259 112 239 90 233 70 243 63 267ZM74 223C47 221 36 202 42 182 64 183 80 197 74 223ZM98 190C122 194 140 180 143 160 122 155 104 165 98 190ZM105 143C80 137 72 117 81 99 103 103 116 119 105 143ZM126 101C148 102 163 88 162 69 143 68 128 80 126 101Z" />
+          <path class="gold-stroke" d="M24 322C46 300 53 284 55 269M91 206C101 190 105 177 104 161M136 73C146 58 152 42 158 25" />
+          <g transform="translate(157 29)"><g class="bloom bloom--gold bloom--first"><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(300)"/><circle class="flower-center" r="4.4"/></g></g>
+          <g transform="translate(106 143)"><g class="bloom bloom--cream bloom--second"><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(300)"/><circle class="flower-center" r="3.7"/></g></g>
+          <g transform="translate(43 185)"><g class="bloom bloom--gold bloom--third"><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(300)"/><circle class="flower-center" r="4.4"/></g></g>
+        </svg>
+        <svg class="botanical botanical--right" viewBox="0 0 180 340" aria-hidden="true">
+          <path d="M15 328C55 291 49 252 78 220S110 170 103 134 125 82 160 18" />
+          <path d="M45 290C18 290 5 272 8 251 30 249 49 262 45 290ZM63 267C89 272 108 259 112 239 90 233 70 243 63 267ZM74 223C47 221 36 202 42 182 64 183 80 197 74 223ZM98 190C122 194 140 180 143 160 122 155 104 165 98 190ZM105 143C80 137 72 117 81 99 103 103 116 119 105 143ZM126 101C148 102 163 88 162 69 143 68 128 80 126 101Z" />
+          <path class="gold-stroke" d="M24 322C46 300 53 284 55 269M91 206C101 190 105 177 104 161M136 73C146 58 152 42 158 25" />
+          <g transform="translate(157 29)"><g class="bloom bloom--gold bloom--first"><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(300)"/><circle class="flower-center" r="4.4"/></g></g>
+          <g transform="translate(106 143)"><g class="bloom bloom--cream bloom--second"><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-7" rx="4" ry="6.3" transform="rotate(300)"/><circle class="flower-center" r="3.7"/></g></g>
+          <g transform="translate(43 185)"><g class="bloom bloom--gold bloom--third"><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(60)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(120)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(180)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(240)"/><ellipse class="petal" cx="0" cy="-8" rx="4.6" ry="7.1" transform="rotate(300)"/><circle class="flower-center" r="4.4"/></g></g>
+        </svg>
+        <div class="hero-content">
+          <p class="eyebrow">Una celebración especial</p>
+          <h1 id="hero-title">La vida se celebra<br><em>en grande</em></h1>
+          <p class="hero-copy">Acompáñanos a brindar por una historia llena de amor, alegría y momentos inolvidables.</p>
+          <div class="age-wrap" aria-label="60 años"><span class="age-number">60</span><span class="age-label">años de<br>momentos<br>inolvidables</span></div>
+          <div class="ornament" aria-hidden="true"><span>✦</span></div>
+          <p class="name" id="honoree-name">[Nombre de la festejada]</p>
+          <div class="hero-bottom">
+            <a class="button" href="#rsvp">Confirmar asistencia</a>
+            <a class="button button--outline" href="#detalles">Ver detalles</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="details" id="detalles" aria-labelledby="details-title">
+        <div class="section-inner">
+          <div class="details-head">
+            <p class="section-kicker">Nos encantará verte</p>
+            <h2 class="section-heading" id="details-title">Celebremos juntos</h2>
+            <p class="section-intro">Una noche para compartir buena compañía, recuerdos y muchas razones para brindar.</p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card">
+              <div class="detail-symbol" aria-hidden="true">✧</div>
+              <p class="detail-label">Fecha</p>
+              <p class="detail-value" id="event-date">Sábado 7 de noviembre</p>
+              <p class="detail-note" id="event-year">2026</p>
+            </article>
+            <article class="detail-card">
+              <div class="detail-symbol" aria-hidden="true">◷</div>
+              <p class="detail-label">Hora</p>
+              <p class="detail-value" id="event-time">7:00 PM</p>
+              <p class="detail-note">Te esperamos con mucho cariño</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="rsvp" id="rsvp" aria-labelledby="rsvp-title">
+        <div class="rsvp-constellation" aria-hidden="true">
+          <svg viewBox="0 0 360 280">
+            <ellipse class="constellation-orbit" cx="186" cy="142" rx="146" ry="96" transform="rotate(-22 186 142)" />
+            <path class="constellation-line" d="M45 157 106 83 183 120 265 48 314 139 238 206 183 120" />
+            <path class="constellation-line" d="M106 83 119 202 238 206" />
+            <path class="constellation-star" d="m45 150 2.6 5.2 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" />
+            <path class="constellation-star constellation-star--two" d="m106 77 2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8z" />
+            <path class="constellation-star constellation-star--three" d="m183 114 3 5.9 6.5.9-4.7 4.6 1.1 6.5-5.9-3.1-5.9 3.1 1.1-6.5-4.7-4.6 6.5-.9z" />
+            <path class="constellation-star constellation-star--four" d="m265 42 2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z" />
+            <circle class="constellation-dot" cx="314" cy="139" r="3" />
+            <circle class="constellation-dot" cx="238" cy="206" r="2.5" />
+            <circle class="constellation-dot" cx="119" cy="202" r="2.5" />
+          </svg>
+        </div>
+        <div class="rsvp-floral-edge" aria-hidden="true">
+          <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
+            <defs>
+              <g id="rsvp-lower-sprig">
+                <path class="rsvp-sprig" d="M0 78C18 56 24 29 43 2" />
+                <path class="rsvp-sprig-leaf" d="M11 62C-7 60-14 48-6 37 8 41 15 51 11 62ZM18 51C34 54 46 45 46 33 32 28 21 35 18 51ZM26 35C8 30 3 17 11 6 24 10 31 21 26 35ZM35 18C49 21 58 12 56 1 44-3 36 4 35 18Z" />
+                <path class="rsvp-sprig-leaf--light" d="M8 67C-9 70-17 81-12 92 2 91 10 81 8 67ZM22 45C39 39 45 27 38 17 25 23 19 33 22 45Z" />
+              </g>
+            </defs>
+            <path class="rsvp-sprig" d="M-20 139C156 112 280 128 416 139s235-16 363-4 258 17 378 3 222-12 310 1" />
+            <use href="#rsvp-lower-sprig" transform="translate(74 54) rotate(-8) scale(.9)" />
+            <use href="#rsvp-lower-sprig" transform="translate(300 57) rotate(5) scale(.78)" />
+            <use href="#rsvp-lower-sprig" transform="translate(520 59) rotate(-6) scale(.86)" />
+            <use href="#rsvp-lower-sprig" transform="translate(844 57) rotate(6) scale(.86)" />
+            <use href="#rsvp-lower-sprig" transform="translate(1086 58) rotate(-5) scale(.8)" />
+            <use href="#rsvp-lower-sprig" transform="translate(1320 55) rotate(8) scale(.9)" />
+            <g transform="translate(183 58)"><g class="bloom bloom--cream bloom--first"><ellipse class="petal" cy="-8" rx="5" ry="8"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(60)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(120)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(180)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(240)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(300)"/><circle class="flower-center" r="4"/></g></g>
+            <g transform="translate(721 62)"><g class="bloom bloom--gold bloom--second"><ellipse class="petal" cy="-10" rx="6" ry="9"/><ellipse class="petal" cy="-10" rx="6" ry="9" transform="rotate(60)"/><ellipse class="petal" cy="-10" rx="6" ry="9" transform="rotate(120)"/><ellipse class="petal" cy="-10" rx="6" ry="9" transform="rotate(180)"/><ellipse class="petal" cy="-10" rx="6" ry="9" transform="rotate(240)"/><ellipse class="petal" cy="-10" rx="6" ry="9" transform="rotate(300)"/><circle class="flower-center" r="4.8"/></g></g>
+            <g transform="translate(1246 59)"><g class="bloom bloom--cream bloom--third"><ellipse class="petal" cy="-8" rx="5" ry="8"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(60)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(120)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(180)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(240)"/><ellipse class="petal" cy="-8" rx="5" ry="8" transform="rotate(300)"/><circle class="flower-center" r="4"/></g></g>
+          </svg>
+        </div>
+        <div class="section-inner rsvp-layout">
+          <div class="rsvp-copy">
+            <p class="section-kicker">Tu respuesta nos ayuda a preparar todo</p>
+            <h2 class="section-heading" id="rsvp-title">¿Nos acompañas?</h2>
+            <p>Confirma aquí en un momento. Tu respuesta quedará registrada para que podamos organizar esta celebración como se merece.</p>
+            <p class="deadline" id="rsvp-note">Agradecemos confirmar lo antes posible</p>
+          </div>
+          <div class="form-card">
+            <h3>Confirma tu asistencia</h3>
+            <p class="form-hint">Completa tus datos y envía tu respuesta.</p>
+            <form id="rsvp-form" method="post" target="rsvp-frame" novalidate>
+              <div class="field">
+                <label for="guest-name">Tu nombre</label>
+                <input id="guest-name" name="nombre" type="text" autocomplete="name" maxlength="100" placeholder="Escribe tu nombre" required>
+              </div>
+              <fieldset>
+                <legend>¿Podrás acompañarnos?</legend>
+                <div class="choice-row">
+                  <label class="choice"><input type="radio" name="asistencia" value="Sí, asistiré" required><span>Sí, asistiré</span></label>
+                  <label class="choice"><input type="radio" name="asistencia" value="No podré asistir"><span>No podré asistir</span></label>
+                </div>
+              </fieldset>
+              <div class="field hidden" id="party-size-field">
+                <label for="acompanantes">Personas en tu grupo (incluyéndote)</label>
+                <select id="acompanantes" name="personas">
+                  <option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option>
+                </select>
+              </div>
+              <div class="honeypot" aria-hidden="true"><label for="website">Deja este campo vacío</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+              <input id="submit-nonce" name="nonce" type="hidden" value="">
+              <button class="button submit-button" id="submit-button" type="submit">Enviar respuesta</button>
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+              <p class="small-print">Usaremos tu respuesta únicamente para organizar la celebración.</p>
+            </form>
+            <iframe name="rsvp-frame" id="rsvp-frame" title="Envío de confirmación" class="hidden"></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>Con cariño, para celebrar <span>60 años</span> de una vida maravillosa.</footer>
+  </div>
+
+  <script>
+    /* PERSONALIZA AQUÍ los datos de la fiesta. Los pasos de conexión están en README.md. */
+    const INVITATION = {
+      honoree: "Carlota de Paz",
+      date: "Sábado 7 de noviembre",
+      year: "2026",
+      time: "7:00 PM",
+      rsvpNote: "Agradecemos confirmar lo antes posible",
+      maxPartySize: 4,
+      endpoint: "PEGA_AQUI_LA_URL_DE_APPS_SCRIPT"
+    };
+
+    const putText = (id, value) => { document.getElementById(id).textContent = value; };
+    putText("honoree-name", INVITATION.honoree);
+    putText("event-date", INVITATION.date);
+    putText("event-year", INVITATION.year);
+    putText("event-time", INVITATION.time);
+    putText("rsvp-note", INVITATION.rsvpNote);
+
+    const partySize = document.getElementById("acompanantes");
+    const partySizeField = document.getElementById("party-size-field");
+    partySize.replaceChildren(...Array.from({ length: Math.max(1, Math.min(10, INVITATION.maxPartySize)) }, (_, i) => {
+      const option = document.createElement("option");
+      option.value = String(i + 1);
+      option.textContent = `${i + 1} ${i === 0 ? "persona" : "personas"}`;
+      return option;
+    }));
+    document.querySelectorAll('input[name="asistencia"]').forEach((radio) => {
+      radio.addEventListener("change", () => {
+        const attending = radio.checked && radio.value === "Sí, asistiré";
+        if (attending) {
+          partySizeField.classList.remove("hidden");
+          partySize.required = true;
+        } else if (radio.checked) {
+          partySizeField.classList.add("hidden");
+          partySize.required = false;
+        }
+      });
+    });
+
+    const form = document.getElementById("rsvp-form");
+    const status = document.getElementById("form-status");
+    const submitButton = document.getElementById("submit-button");
+    let activeNonce = "";
+    let timeoutId;
+
+    function finishSubmission(ok) {
+      window.clearTimeout(timeoutId);
+      activeNonce = "";
+      status.textContent = ok
+        ? "¡Gracias! Tu respuesta quedó registrada. Si confirmaste asistencia, te esperamos con mucha ilusión."
+        : "No pudimos guardar tu respuesta. Revisa tu conexión e inténtalo de nuevo.";
+      if (ok) {
+        form.reset();
+        partySizeField.classList.add("hidden");
+        partySize.required = false;
+      }
+      submitButton.disabled = false;
+      submitButton.textContent = "Enviar respuesta";
+    }
+
+    window.addEventListener("message", (event) => {
+      const message = event.data;
+      if (!activeNonce || !message || message.source !== "birthday-rsvp" || message.nonce !== activeNonce) return;
+      finishSubmission(Boolean(message.ok));
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      if (!INVITATION.endpoint || INVITATION.endpoint.includes("PEGA_AQUI")) {
+        status.textContent = "Aún en proceso (#__#)";
+        return;
+      }
+      form.action = INVITATION.endpoint;
+      activeNonce = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+      document.getElementById("submit-nonce").value = activeNonce;
+      status.textContent = "Enviando tu respuesta…";
+      submitButton.disabled = true;
+      submitButton.textContent = "Enviando…";
+      form.submit();
+      timeoutId = window.setTimeout(() => {
+        if (activeNonce) finishSubmission(false);
+      }, 15000);
+    });
+  </script>
+</body>
+</html>
