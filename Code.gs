@@ -2,7 +2,7 @@
  * Guarda respuestas de la invitación en una hoja de Google Sheets.
  * Pega el ID de tu hoja en SHEET_ID antes de publicar como aplicación web.
  */
-const SHEET_ID = "PEGA_AQUI_EL_ID_DE_TU_HOJA";
+const SHEET_ID = "1C_7Qj5yH63HpNAnIfl3RqvH5GsUQIxLEG5wHvt9hXdA";
 const TAB_NAME = "Respuestas";
 const HEADERS = ["Fecha de respuesta", "Nombre", "Asistencia", "Personas"];
 

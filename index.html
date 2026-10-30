@@ -66,7 +66,18 @@
     .corner--bl { bottom: 30px; left: 30px; transform: scaleY(-1); }
     .corner--br { bottom: 30px; right: 30px; transform: scale(-1); }
     .hero-content { position: relative; z-index: 1; max-width: 760px; }
-    .botanical { position: absolute; z-index: 0; width: clamp(130px, 21vw, 270px); height: auto; color: var(--olive-light); opacity: .36; pointer-events: none; }
+    .hero-content > * { animation: hero-enter .78s cubic-bezier(.2,.75,.25,1) both; }
+    .hero-content > :nth-child(1) { animation-delay: .08s; }
+    .hero-content > :nth-child(2) { animation-delay: .2s; }
+    .hero-content > :nth-child(3) { animation-delay: .32s; }
+    .hero-content > :nth-child(4) { animation-delay: .44s; }
+    .hero-content > :nth-child(5) { animation-delay: .56s; }
+    .hero-content > :nth-child(6) { animation-delay: .68s; }
+    .hero-content > :nth-child(7) { animation-delay: .8s; }
+    @keyframes hero-enter { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+    .botanical { position: absolute; z-index: 0; width: clamp(130px, 21vw, 270px); height: auto; color: var(--olive-light); opacity: .36; pointer-events: none; animation: botanical-drift 7s ease-in-out infinite alternate; }
+    .botanical--right { animation-delay: -3.5s; }
+    @keyframes botanical-drift { from { translate: 0 0; } to { translate: 0 -6px; } }
     .botanical path { fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
     .botanical .gold-stroke { color: var(--gold); opacity: .8; }
     .botanical--left { left: max(3%, calc((100vw - 1320px) / 2)); bottom: 8%; }
@@ -138,10 +149,11 @@
       letter-spacing: .1em;
       text-decoration: none;
       text-transform: uppercase;
-      transition: transform .2s ease, background .2s ease;
+      transition: transform .24s ease, background .24s ease, box-shadow .24s ease;
       cursor: pointer;
     }
-    .button:hover { transform: translateY(-2px); background: #e2c984; }
+    .button:hover { transform: translateY(-3px) scale(1.015); background: #e2c984; box-shadow: 0 9px 24px rgba(212,182,111,.18); }
+    .button:focus-visible { outline: 2px solid var(--cream); outline-offset: 4px; }
     .button--outline { color: var(--cream); background: transparent; }
     .button--outline:hover { color: var(--black); }
     .details { position: relative; overflow: hidden; padding: 100px 24px; background: radial-gradient(ellipse at 50% 52%, rgba(114,119,81,.13), transparent 58%), #20231b; }
@@ -149,11 +161,16 @@
     .details::before { left: -300px; }
     .details::after { right: -300px; }
     .section-inner { position: relative; z-index: 1; width: min(100%, 980px); margin: 0 auto; }
+    html.motion-enhanced [data-reveal] { opacity: 0; transform: translateY(22px) scale(.99); transition: opacity .72s ease, transform .72s cubic-bezier(.2,.75,.25,1); }
+    html.motion-enhanced [data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); }
+    .detail-card:nth-child(2) { transition-delay: .13s; }
+    .form-card[data-reveal] { transition-delay: .16s; }
     .section-heading { margin: 12px 0 16px; font-size: clamp(2.4rem, 5vw, 4rem); }
     .section-intro { max-width: 570px; margin: 0 auto; color: var(--muted); }
     .details-head { text-align: center; }
     .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 54px; border: 1px solid var(--line); }
-    .detail-card { min-height: 184px; padding: 28px 20px; text-align: center; }
+    .detail-card { min-height: 184px; padding: 28px 20px; text-align: center; transition: background .28s ease, transform .28s ease, box-shadow .28s ease; }
+    .detail-card:hover { background: rgba(212,182,111,.055); transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,.12); }
     .detail-card + .detail-card { border-left: 1px solid var(--line); }
     .detail-symbol { color: var(--gold); font-size: 1.35rem; }
     .detail-label { margin: 9px 0 6px; color: var(--olive-light); font-size: .67rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
@@ -204,6 +221,8 @@
     .choice input:focus-visible + span { outline: 2px solid var(--cream); outline-offset: 2px; }
     .hidden { display: none; }
     .submit-button { width: 100%; margin-top: 3px; }
+    .hero-bottom .button:not(.button--outline) { animation: button-glow 2.8s ease-in-out 1.7s 2; }
+    @keyframes button-glow { 0%, 100% { box-shadow: 0 0 0 rgba(212,182,111,0); } 50% { box-shadow: 0 0 22px rgba(212,182,111,.28); } }
     .form-status { min-height: 25px; margin: 14px 0 0; color: var(--gold); font-size: .85rem; }
     .small-print { margin: 14px 0 0; color: #a9a894; font-size: .72rem; }
     .honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
@@ -229,8 +248,13 @@
       .rsvp-constellation svg { top: 0; right: -68px; width: 250px; opacity: .23; }
       .rsvp-floral-edge { height: 78px; opacity: .62; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
-    @media (prefers-reduced-motion: reduce) { .bloom { animation: none; opacity: 1; transform: none; } .constellation-star { animation: none; opacity: .7; transform: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
+      .hero-content > * { opacity: 1; transform: none; filter: none; }
+      html.motion-enhanced [data-reveal] { opacity: 1; transform: none; transition: none; }
+      .bloom, .constellation-star { animation: none !important; opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -288,19 +312,19 @@
 
       <section class="details" id="detalles" aria-labelledby="details-title">
         <div class="section-inner">
-          <div class="details-head">
+          <div class="details-head" data-reveal>
             <p class="section-kicker">Nos encantará verte</p>
             <h2 class="section-heading" id="details-title">Celebremos juntos</h2>
             <p class="section-intro">Una noche para compartir buena compañía, recuerdos y muchas razones para brindar.</p>
           </div>
           <div class="detail-grid">
-            <article class="detail-card">
+            <article class="detail-card" data-reveal>
               <div class="detail-symbol" aria-hidden="true">✧</div>
               <p class="detail-label">Fecha</p>
               <p class="detail-value" id="event-date">Sábado 7 de noviembre</p>
               <p class="detail-note" id="event-year">2026</p>
             </article>
-            <article class="detail-card">
+            <article class="detail-card" data-reveal>
               <div class="detail-symbol" aria-hidden="true">◷</div>
               <p class="detail-label">Hora</p>
               <p class="detail-value" id="event-time">7:00 PM</p>
@@ -347,13 +371,13 @@
           </svg>
         </div>
         <div class="section-inner rsvp-layout">
-          <div class="rsvp-copy">
+          <div class="rsvp-copy" data-reveal>
             <p class="section-kicker">Tu respuesta nos ayuda a preparar todo</p>
             <h2 class="section-heading" id="rsvp-title">¿Nos acompañas?</h2>
             <p>Confirma aquí en un momento. Tu respuesta quedará registrada para que podamos organizar esta celebración como se merece.</p>
             <p class="deadline" id="rsvp-note">Agradecemos confirmar lo antes posible</p>
           </div>
-          <div class="form-card">
+          <div class="form-card" data-reveal>
             <h3>Confirma tu asistencia</h3>
             <p class="form-hint">Completa tus datos y envía tu respuesta.</p>
             <form id="rsvp-form" method="post" target="rsvp-frame" novalidate>
@@ -397,7 +421,7 @@
       time: "7:00 PM",
       rsvpNote: "Agradecemos confirmar lo antes posible",
       maxPartySize: 4,
-      endpoint: "PEGA_AQUI_LA_URL_DE_APPS_SCRIPT"
+      endpoint: "https://script.google.com/macros/s/AKfycbxSA0EZhoiemSdsSgvL2uJ_5Cn0hW_FiAD5JiHDGSqKjOhXMToBsxZzH9J-kx5ZDpcS0g/exec"
     };
 
     const putText = (id, value) => { document.getElementById(id).textContent = value; };
@@ -473,6 +497,18 @@
         if (activeNonce) finishSubmission(false);
       }, 15000);
     });
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+      document.documentElement.classList.add("motion-enhanced");
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: .14, rootMargin: "0px 0px -4% 0px" });
+      document.querySelectorAll("[data-reveal]").forEach((element) => revealObserver.observe(element));
+    }
   </script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 
 Página de invitación adaptable a celular y computadora, con confirmación de asistencia guardada en una hoja de Google Sheets.
 
+Hoja de respuestas creada para esta invitación: [Confirmaciones - Carlota de Paz](https://docs.google.com/spreadsheets/d/1C_7Qj5yH63HpNAnIfl3RqvH5GsUQIxLEG5wHvt9hXdA/edit).
+
 ## Personaliza los datos
 
 Abre `index.html` y edita el objeto `INVITATION` al final del archivo:
@@ -16,11 +18,15 @@ La invitación incluye la hora de las 7:00 PM. El módulo de detalles muestra so
 
 ## Conecta las respuestas con Google Sheets
 
-1. Crea una hoja nueva en Google Sheets. Copia el ID de la dirección: es el texto entre `/d/` y `/edit`.
-2. En la hoja, abre **Extensiones → Apps Script**. Reemplaza el contenido del editor con `Code.gs`, pega el ID de la hoja en `SHEET_ID` y guarda.
-3. En Apps Script, elige **Implementar → Nueva implementación → Aplicación web**. Configura **Ejecutar como: Yo** y acceso para **Cualquier persona**. Implementa y autoriza el acceso cuando Google lo solicite.
-4. Copia la URL de la aplicación web, que termina en `/exec`, y pégala como valor de `endpoint` dentro de `INVITATION` en `index.html`.
-5. La primera respuesta crea la pestaña **Respuestas** y sus columnas. Consulta ahí quién asistirá, quién no podrá asistir y el tamaño de cada grupo.
+La conexión ya está publicada y enlazada en `index.html`.
+
+- Hoja: [Confirmaciones - Carlota de Paz](https://docs.google.com/spreadsheets/d/1C_7Qj5yH63HpNAnIfl3RqvH5GsUQIxLEG5wHvt9hXdA/edit)
+- Pestaña de respuestas: **Respuestas**
+- URL de recepción del formulario (ya configurada en `index.html`; no hace falta abrirla): `https://script.google.com/macros/s/AKfycbxSA0EZhoiemSdsSgvL2uJ_5Cn0hW_FiAD5JiHDGSqKjOhXMToBsxZzH9J-kx5ZDpcS0g/exec`
+
+La aplicación se ejecuta como propietaria y acepta respuestas de cualquier persona que tenga la invitación. Los invitados pueden enviar respuestas, pero no leer la hoja. Cada respuesta guarda fecha, nombre, asistencia y número de personas.
+
+Si editas `Code.gs` en el futuro, publica una nueva versión desde **Implementar → Administrar implementaciones**. Si cambia la URL de la aplicación web, actualiza también `INVITATION.endpoint` en `index.html`.
 
 El formulario registra nombre, asistencia y cantidad de personas. La página no pide correo ni recopila datos de navegación.
 
