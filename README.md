@@ -11,7 +11,7 @@ Abre `index.html` y edita el objeto `INVITATION` al final del archivo:
 - `honoree`: nombre de la festejada (ya configurado como Carlota de Paz).
 - `date`, `year`, `time`: día, fecha y hora.
 - `rsvpNote`: indicación breve para confirmar.
-- `maxPartySize`: máximo de personas por respuesta.
+- `maxPartySize`: máximo de personas por respuesta (actualmente 5).
 - `endpoint`: se completa en el paso 2.
 
 La invitación incluye la hora de las 7:00 PM. El módulo de detalles muestra solo la fecha y la hora.

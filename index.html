@@ -82,8 +82,10 @@
     .botanical .gold-stroke { color: var(--gold); opacity: .8; }
     .botanical--left { left: max(3%, calc((100vw - 1320px) / 2)); bottom: 8%; }
     .botanical--right { right: max(3%, calc((100vw - 1320px) / 2)); top: 20%; transform: scaleX(-1) rotate(-8deg); }
-    .floral-canopy { position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: clamp(160px, 25vh, 280px); pointer-events: none; }
-    .floral-canopy svg { display: block; width: 100%; height: 100%; }
+    .floral-canopy { position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: clamp(160px, 25vh, 280px); overflow: hidden; pointer-events: none; }
+    .floral-canopy-track { display: flex; width: 200%; height: 100%; animation: canopy-scroll 42s linear infinite; will-change: transform; }
+    .floral-canopy-track svg { display: block; flex: 0 0 50%; width: 50%; height: 100%; }
+    @keyframes canopy-scroll { to { transform: translateX(-50%); } }
     .floral-canopy::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 43%, rgba(23,26,19,.28) 69%, #171a13 100%); }
     .canopy-vine { fill: none; stroke: #9b9e73; stroke-width: 2.2; stroke-linecap: round; opacity: .82; }
     .canopy-leaf { fill: #727751; stroke: #a7a77b; stroke-width: 1; }
@@ -164,12 +166,13 @@
     html.motion-enhanced [data-reveal] { opacity: 0; transform: translateY(22px) scale(.99); transition: opacity .72s ease, transform .72s cubic-bezier(.2,.75,.25,1); }
     html.motion-enhanced [data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); }
     .detail-card:nth-child(2) { transition-delay: .13s; }
+    .detail-card:nth-child(3) { transition-delay: .26s; }
     .form-card[data-reveal] { transition-delay: .16s; }
     .section-heading { margin: 12px 0 16px; font-size: clamp(2.4rem, 5vw, 4rem); }
     .section-intro { max-width: 570px; margin: 0 auto; color: var(--muted); }
     .details-head { text-align: center; }
-    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 54px; border: 1px solid var(--line); }
-    .detail-card { min-height: 184px; padding: 28px 20px; text-align: center; transition: background .28s ease, transform .28s ease, box-shadow .28s ease; }
+    .detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 54px; border: 1px solid var(--line); }
+    .detail-card { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 184px; padding: 28px 20px; text-align: center; transition: background .28s ease, transform .28s ease, box-shadow .28s ease; }
     .detail-card:hover { background: rgba(212,182,111,.055); transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,.12); }
     .detail-card + .detail-card { border-left: 1px solid var(--line); }
     .detail-symbol { color: var(--gold); font-size: 1.35rem; }
@@ -251,6 +254,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
+      .floral-canopy-track { animation: none !important; }
       .hero-content > * { opacity: 1; transform: none; filter: none; }
       html.motion-enhanced [data-reveal] { opacity: 1; transform: none; transition: none; }
       .bloom, .constellation-star { animation: none !important; opacity: 1; transform: none; }
@@ -264,6 +268,7 @@
         <span class="corner corner--tl" aria-hidden="true"></span><span class="corner corner--tr" aria-hidden="true"></span>
         <span class="corner corner--bl" aria-hidden="true"></span><span class="corner corner--br" aria-hidden="true"></span>
         <div class="floral-canopy" aria-hidden="true">
+          <div class="floral-canopy-track">
           <svg viewBox="0 0 1600 300" preserveAspectRatio="xMidYMin slice">
             <path class="canopy-vine" d="M-35 16C112 28 174 94 302 65S485 6 638 42s230 73 376 38 216-74 332-43 191 65 292 43" />
             <path class="canopy-vine" d="M87 22c28 42 16 88-2 132m221-91c-15 39-7 75 23 111m225-125c-29 36-26 81-6 113m250-86c16 42 13 87-8 126m244-83c-18 35-16 70 7 104m252-84c26 39 25 85 0 126m214-97c-10 34-3 64 18 91" />
@@ -279,6 +284,7 @@
             <g transform="translate(1360 52)"><g class="bloom bloom--cream bloom--fifth"><ellipse class="petal" cy="-12" rx="7" ry="11"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(60)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(120)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(180)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(240)"/><ellipse class="petal" cy="-12" rx="7" ry="11" transform="rotate(300)"/><circle class="flower-center" r="6"/></g></g>
             <circle cx="197" cy="37" r="3.2" fill="#d4b66f"/><circle cx="748" cy="30" r="3" fill="#e3d7b4"/><circle cx="1272" cy="36" r="3.3" fill="#d4b66f"/>
           </svg>
+          </div>
         </div>
         <svg class="botanical botanical--left" viewBox="0 0 180 340" aria-hidden="true">
           <path d="M15 328C55 291 49 252 78 220S110 170 103 134 125 82 160 18" />
@@ -329,6 +335,11 @@
               <p class="detail-label">Hora</p>
               <p class="detail-value" id="event-time">7:00 PM</p>
               <p class="detail-note">Te esperamos con mucho cariño</p>
+            </article>
+            <article class="detail-card" data-reveal>
+              <div class="detail-symbol" aria-hidden="true">⌂</div>
+              <p class="detail-label">Lugar</p>
+              <p class="detail-value">Casa de habitación</p>
             </article>
           </div>
         </div>
@@ -395,7 +406,7 @@
               <div class="field hidden" id="party-size-field">
                 <label for="acompanantes">Personas en tu grupo (incluyéndote)</label>
                 <select id="acompanantes" name="personas">
-                  <option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option>
+                  <option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option><option value="5">5 personas</option>
                 </select>
               </div>
               <div class="honeypot" aria-hidden="true"><label for="website">Deja este campo vacío</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -420,9 +431,12 @@
       year: "2026",
       time: "7:00 PM",
       rsvpNote: "Agradecemos confirmar lo antes posible",
-      maxPartySize: 4,
+      maxPartySize: 5,
       endpoint: "https://script.google.com/macros/s/AKfycbxSA0EZhoiemSdsSgvL2uJ_5Cn0hW_FiAD5JiHDGSqKjOhXMToBsxZzH9J-kx5ZDpcS0g/exec"
     };
+
+    const canopyTrack = document.querySelector(".floral-canopy-track");
+    canopyTrack.append(canopyTrack.firstElementChild.cloneNode(true));
 
     const putText = (id, value) => { document.getElementById(id).textContent = value; };
     putText("honoree-name", INVITATION.honoree);
